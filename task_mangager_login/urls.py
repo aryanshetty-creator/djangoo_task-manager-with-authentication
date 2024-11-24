@@ -15,10 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from task.views import home
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('tasks/', include('tasks.urls')),
-
+    path('admin/', admin.site.urls),
+    path('task/', include('task.urls')),  # Include your tasks app URLs
+    path('', home, name='home'),  # Add a home view for the root path
 ]
+
