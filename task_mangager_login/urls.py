@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from tasks import views as task_views  # Import views from the `tasks` app
+from tasks.views import CustomLoginView, home  # Import necessary views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('task/', include('task.urls')),  # Include task app's URLs
-    path('login/', task_views.login_view, name='login'),  # Assuming a login view exists in tasks app
-    path('logout/', task_views.logout_view, name='logout'),  # Assuming a logout view exists
-    path('', task_views.home, name='home'),  # Root URL points to the home view
+    path('task/', include('tasks.urls')),  # Correct app name to "tasks"
+    path('login/', CustomLoginView.as_view(), name='login'),  # Use the custom login view
+    path('logout/', include('django.contrib.auth.urls')),  # Use Django's default logout handling
+    path('', home, name='home'),  # Root URL points to the home view
 ]
 
 
