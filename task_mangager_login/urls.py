@@ -15,14 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
-from task.views import home  # Import your task views
+from django.urls import path, include
+from tasks import views as task_views  # Import views from the `tasks` app
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('task/', home, name='home'),  # Task home view
-    path('login/', LoginView.as_view(template_name='users/login.html'), name='login'),  # Login view
-    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),  # Logout view (optional)
+    path('task/', include('task.urls')),  # Include task app's URLs
+    path('login/', task_views.login_view, name='login'),  # Assuming a login view exists in tasks app
+    path('logout/', task_views.logout_view, name='logout'),  # Assuming a logout view exists
+    path('', task_views.home, name='home'),  # Root URL points to the home view
 ]
+
 

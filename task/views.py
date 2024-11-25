@@ -4,18 +4,23 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth.views import LoginView
 
+# Login view
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
 
+
+# Home view
+@login_required
 def home(request):
-    return HttpResponse("<h1>Welcome to the Task Manager!</h1><p><a href='/task/'>Go to Task List</a></p>")
+    return render(request, 'tasks/home.html')  # Use a proper template path
 
-
+# Task list view
 @login_required
 def task_list(request):
     tasks = Task.objects.filter(user=request.user)  # Show tasks for the logged-in user
     return render(request, 'tasks/task_list.html', {'tasks': tasks})
 
+# Add task view
 @login_required
 def add_task(request):
     if request.method == 'POST':
@@ -25,6 +30,7 @@ def add_task(request):
         return redirect('task_list')
     return render(request, 'tasks/add_task.html')
 
+# Edit task view
 @login_required
 def edit_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
@@ -36,6 +42,7 @@ def edit_task(request, task_id):
         return redirect('task_list')
     return render(request, 'tasks/edit_task.html', {'task': task})
 
+# Delete task view
 @login_required
 def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
@@ -43,4 +50,3 @@ def delete_task(request, task_id):
         task.delete()
         return redirect('task_list')
     return render(request, 'tasks/delete_task.html', {'task': task})
-
