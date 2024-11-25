@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth.views import LoginView
+
+class CustomLoginView(LoginView):
+    template_name = 'users/login.html'
 
 def home(request):
     return HttpResponse("<h1>Welcome to the Task Manager!</h1><p><a href='/task/'>Go to Task List</a></p>")
