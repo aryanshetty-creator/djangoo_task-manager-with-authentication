@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from tasks.views import CustomLoginView, home  # Import necessary views
+from task.views import CustomLoginView, home  # Import necessary views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('task/', include('tasks.urls')),  # Correct app name to "tasks"
+    path('task/', include('task.urls')),  # Correct app name to "tasks"
     path('login/', CustomLoginView.as_view(), name='login'),  # Use the custom login view
     path('logout/', include('django.contrib.auth.urls')),  # Use Django's default logout handling
     path('', home, name='home'),  # Root URL points to the home view
